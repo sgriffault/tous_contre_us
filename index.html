@@ -162,26 +162,19 @@
 
         document.getElementById("quiz").innerHTML = `<h2>Quiz Finished!</h2><p>Your final score: ${score}/${quizData.length}</p><p>${message}</p>`;
 
-        // Automatically send email using a form service
-        const emailData = {
-          to: "simon.griffault@bloomflow.com", // Replace this with your email
-          subject: "New LOTR Quiz Result",
-          body: `A player completed the quiz with a score of ${score}/${quizData.length}.`
-        };
+        // Send email with score using FormSubmit
+        const form = new FormData();
+        form.append("_subject", "New LOTR Quiz Result");
+        form.append("message", `A player completed the quiz with a score of ${score}/${quizData.length}.`);
 
-        fetch("simon.griffault@bloomflow.com", { // Replace with your email too
+        fetch("https://formsubmit.co/simon.griffault@bloomflow.com", { // Replace with your own email endpoint
           method: "POST",
-          headers: {
-            'Content-Type': 'application/json',
-            'Accept': 'application/json'
-          },
-          body: JSON.stringify({
-            _subject: emailData.subject,
-            message: emailData.body
-          })
+          body: form
         })
-        .then(response => response.json())
-        .then(data => console.log("Email sent:", data))
+        .then(response => {
+          if (!response.ok) throw new Error("FormSubmit error");
+          console.log("Email sent successfully!");
+        })
         .catch(error => console.error("Error sending email:", error));
       }
     }
