@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>LOTR Knowledge Challenge</title>
+  <style>
+    body {
+      background: url('https://i.imgur.com/X1N0g3Y.jpg') no-repeat center center fixed;
+      background-size: cover;
+      color: #f5e6c0;
+      font-family: 'Georgia', serif;
+      padding: 20px;
+    }
+    .quiz-container {
+      background-color: rgba(0, 0, 0, 0.75);
+      padding: 30px;
+      border-radius: 15px;
+      max-width: 800px;
+      margin: auto;
+      box-shadow: 0 0 20px #886622;
+    }
+    h1 {
+      text-align: center;
+      font-size: 2.5em;
+      border-bottom: 2px solid #d4af37;
+      padding-bottom: 10px;
+    }
+    .question {
+      margin-top: 20px;
+      padding: 10px;
+      border: 1px solid #d4af37;
+      border-radius: 10px;
+      background-color: #2f2a1e;
+    }
+    button {
+      margin: 5px;
+      padding: 10px 20px;
+      font-size: 1em;
+      border-radius: 8px;
+      border: none;
+      background-color: #d4af37;
+      color: #000;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #e6c657;
+    }
+    img, audio, video {
+      max-width: 100%;
+      display: block;
+      margin: 10px auto;
+    }
+  </style>
+</head>
+<body>
+  <div class="quiz-container">
+    <h1>LOTR Knowledge Challenge</h1>
+    <div id="quiz"></div>
+    <button onclick="nextQuestion()">Next</button>
+    <p id="score"></p>
+  </div>
+
+  <script>
+    const quizData = [
+      {
+        q: "What is the name of Frodo's loyal gardener and friend?",
+        options: ["Merry", "Samwise", "Boromir", "Legolas"],
+        answer: "Samwise"
+      },
+      {
+        q: "The sword that was broken and reforged for Aragorn is called _______",
+        options: ["Sting", "Narsil", "Andúril", "Orcrist"],
+        answer: "Andúril"
+      },
+      {
+        q: "What is this character’s real name before he became Gollum?",
+        img: "https://upload.wikimedia.org/wikipedia/en/9/9a/Gollum.PNG",
+        options: ["Déagol", "Bilbo", "Sméagol", "Sauron"],
+        answer: "Sméagol"
+      },
+      {
+        q: "What is the Elvish name for Rivendell?",
+        options: ["Lórien", "Mithlond", "Imladris", "Eregion"],
+        answer: "Imladris"
+      },
+      {
+        q: "Who says this line, and where?",
+        audio: "https://www.soundboard.com/mediafiles/mt/MTQ2NjAzNDc4MTQ2Njg1_bjFnd.mp3",
+        options: ["Gandalf at Khazad-dûm", "Aragorn at Helm's Deep", "Saruman at Isengard", "Frodo at Mount Doom"],
+        answer: "Gandalf at Khazad-dûm"
+      },
+      {
+        q: "Aragorn is over 80 years old during the events of The Fellowship of the Ring.",
+        options: ["True", "False"],
+        answer: "True"
+      },
+      {
+        q: "Name all the members of the Fellowship.",
+        options: ["9", "7", "10", "8"],
+        answer: "9"
+      },
+      {
+        q: "What are potatoes good for, according to Sam?",
+        img: "https://upload.wikimedia.org/wikipedia/commons/8/8e/Potato.jpg",
+        options: ["Just boil 'em", "Boil 'em, mash 'em, stick 'em in a stew", "Eat raw", "Feed to Gollum"],
+        answer: "Boil 'em, mash 'em, stick 'em in a stew"
+      },
+      {
+        q: "Who volunteers first to join Frodo’s quest?",
+        video: "https://www.youtube.com/embed/_Z7y8yZfnhA",
+        options: ["Legolas", "Gimli", "Aragorn", "Boromir"],
+        answer: "Aragorn"
+      },
+      {
+        q: "What actor played the Witch-King and also Sauron in the prologue?",
+        options: ["Hugo Weaving", "Lawrence Makoare", "Andy Serkis", "Karl Urban"],
+        answer: "Lawrence Makoare"
+      }
+    ];
+
+    let current = 0;
+    let score = 0;
+
+    function renderQuestion() {
+      const container = document.getElementById("quiz");
+      const q = quizData[current];
+      let html = `<div class='question'><p><strong>Q${current+1}:</strong> ${q.q}</p>`;
+      if (q.img) html += `<img src="${q.img}" alt="Image Question">`;
+      if (q.audio) html += `<audio controls><source src="${q.audio}" type="audio/mp3"></audio>`;
+      if (q.video) html += `<iframe width="100%" height="315" src="${q.video}" frameborder="0" allowfullscreen></iframe>`;
+      q.options.forEach(option => {
+        html += `<button onclick="checkAnswer('${option}')">${option}</button>`;
+      });
+      html += `</div>`;
+      container.innerHTML = html;
+    }
+
+    function checkAnswer(selected) {
+      const correct = quizData[current].answer;
+      if (selected === correct) {
+        alert("Correct!");
+        score++;
+      } else {
+        alert("Wrong! Correct answer: " + correct);
+      }
+      document.getElementById("score").innerText = `Score: ${score}/${quizData.length}`;
+    }
+
+    function nextQuestion() {
+      if (current < quizData.length - 1) {
+        current++;
+        renderQuestion();
+      } else {
+        document.getElementById("quiz").innerHTML = `<h2>Quiz Finished!</h2><p>Your final score: ${score}/${quizData.length}</p>`;
+      }
+    }
+
+    renderQuestion();
+  </script>
+</body>
+</html>
