@@ -5,7 +5,7 @@
   <title>LOTR Knowledge Challenge</title>
   <style>
     body {
-      background: url('https://www.filmonpaper.com/wp-content/uploads/2011/05/TheLordOfTheRingsFellowshipOfTheRing_quad_UK-1.jpg') no-repeat center center fixed;
+      background: url('https://i.imgur.com/X1N0g3Y.jpg') no-repeat center center fixed;
       background-size: cover;
       color: #f5e6c0;
       font-family: 'Georgia', serif;
@@ -56,7 +56,6 @@
   <div class="quiz-container">
     <h1>LOTR Knowledge Challenge</h1>
     <div id="quiz"></div>
-    <button onclick="nextQuestion()">Next</button>
     <p id="score"></p>
   </div>
 
@@ -144,6 +143,7 @@
         alert("Wrong! Correct answer: " + correct);
       }
       document.getElementById("score").innerText = `Score: ${score}/${quizData.length}`;
+      nextQuestion();
     }
 
     function nextQuestion() {
